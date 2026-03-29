@@ -1,5 +1,5 @@
 import type { Tilemaps } from 'phaser'
-import { Bullet } from './bullet'
+import { Bullet } from './Bullet'
 
 type PhysicsCallback = Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
 type Body = Phaser.Tilemaps.Tile

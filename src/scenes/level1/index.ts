@@ -6,7 +6,7 @@ export class Level1 extends Scene {
   private map!: Tilemaps.Tilemap
   private tileset!: Tilemaps.Tileset
   private wallsLayer!: Tilemaps.TilemapLayer
-  private groundLayer!: Tilemaps.TilemapLayer
+  // private groundLayer!: Tilemaps.TilemapLayer
 
   constructor() {
     super('level-1-scene')
@@ -29,7 +29,7 @@ export class Level1 extends Scene {
   private initMap(): void {
     this.map = this.make.tilemap({ key: 'field32', tileWidth: 16, tileHeight: 16 })
     this.tileset = this.map.addTilesetImage('field32', 'tiles')!
-    this.groundLayer = this.map.createLayer('Ground', this.tileset, 0, 0)!
+    this.map.createLayer('Ground', this.tileset, 0, 0)!
     this.wallsLayer = this.map.createLayer('Walls', this.tileset, 0, 0)!
     this.wallsLayer.setCollisionByProperty({ collides: true })
     this.physics.world.setBounds(0, 0, this.wallsLayer.width, this.wallsLayer.height)
