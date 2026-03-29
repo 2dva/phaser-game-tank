@@ -1,5 +1,5 @@
 import { Scene } from 'phaser'
-import { Hero } from '../../classes/hero'
+import { Hero } from '../../classes/_Hero'
 
 export class Level1 extends Scene {
   private hero!: Hero

@@ -1,4 +1,4 @@
-import { Actor } from './actor'
+import { Actor } from './_Actor'
 
 const ROTATION_SPEED = Math.PI * 0.02
 

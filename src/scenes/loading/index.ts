@@ -8,6 +8,7 @@ export class LoadingScene extends Scene {
   preload(): void {
     this.load.baseURL = 'assets/'
 
+    this.load.image('bullet', 'sprites/bullet7.png')
     this.load.image('tank', 'sprites/tank.png')
     this.load.image('turret', 'sprites/turret.png')
     this.load.atlas('a-tank', 'spritesheets/tanks.png', 'spritesheets/tanks_atlas.json')

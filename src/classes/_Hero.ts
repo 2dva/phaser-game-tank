@@ -1,4 +1,5 @@
-import { Hull } from './hull'
+import { Hull } from './_Hull'
+import { Bullets } from './Bullets'
 
 const ROTATION_SPEED = Math.PI * 0.0008
 let target = 0
@@ -9,12 +10,15 @@ export class Hero extends Phaser.GameObjects.Container {
   private keyS: Phaser.Input.Keyboard.Key
   private keyD: Phaser.Input.Keyboard.Key
   private hull: Hull
+  private bullets: Bullets
   private turret: Phaser.GameObjects.Sprite
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y)
     scene.add.existing(this)
     scene.physics.add.existing(this)
+
+    this.bullets = new Bullets(scene)
 
     this.hull = new Hull(scene, 0, 0)
     this.add(this.hull)
@@ -23,6 +27,12 @@ export class Hero extends Phaser.GameObjects.Container {
     this.turret.setOrigin(0.5, 0.25)
     this.add([this.hull, this.turret])
 
+    scene.input.on('pointerdown', () => {
+      const angle = this.turret.rotation + Math.PI / 2
+      const x = this.x + 40 * Math.cos(angle)
+      const y = this.y + 40 * Math.sin(angle) - 5
+      this.bullets.fireBullet(x, y, angle)
+    })
     // KEYS
     this.keyW = this.scene.input.keyboard!.addKey('W')
     this.keyA = this.scene.input.keyboard!.addKey('A')
@@ -31,8 +41,8 @@ export class Hero extends Phaser.GameObjects.Container {
   }
 
   update(pointer: Phaser.Input.Pointer, delta: number): void {
-      const angleToPointer = Phaser.Math.Angle.BetweenPoints(this, pointer)
-      target = angleToPointer - Math.PI / 2
+    const angleToPointer = Phaser.Math.Angle.BetweenPoints(this, pointer)
+    target = angleToPointer - Math.PI / 2
 
     let hDir = null,
       vDir = null
