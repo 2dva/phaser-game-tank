@@ -1,0 +1,31 @@
+{
+  "name": "phaser-game1---",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint ./src --ext .ts",
+    "lint-fix": "eslint ./src --ext .ts --fix",
+    "types": "tsc --noEmit --project ./tsconfig.json",
+    "prettify": "prettier --loglevel warn --cache --write '{src/**/*,*}.{js,ts,json,yml,css}' '!**/{node_modules,dist}/**/*'"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
+    "cross-env": "^10.1.0",
+    "eslint": "9.39",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.57.2",
+    "vite": "^8.0.1"
+  }
+}

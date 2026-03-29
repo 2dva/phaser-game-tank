@@ -1,0 +1,162 @@
+{
+  "textures": [
+    {
+      "image": "tanks",
+      "format": "RGBA8888",
+      "size": {
+        "w": 945,
+        "h": 165
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "tank-0",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 149,
+            "h": 165
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          },
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          }
+        },
+        {
+          "filename": "tank-1",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 149,
+            "h": 165
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          },
+          "frame": {
+            "x": 149,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          }
+        },
+        {
+          "filename": "tank-2",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 149,
+            "h": 165
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          },
+          "frame": {
+            "x": 298,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          }
+        },
+        {
+          "filename": "tank-3",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 149,
+            "h": 165
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          },
+          "frame": {
+            "x": 447,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          }
+        },
+        {
+          "filename": "tank-4",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 149,
+            "h": 165
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          },
+          "frame": {
+            "x": 596,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          }
+        },
+        {
+          "filename": "tank-5",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 149,
+            "h": 165
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          },
+          "frame": {
+            "x": 745,
+            "y": 0,
+            "w": 149,
+            "h": 165
+          }
+        },
+        {
+          "filename": "turret",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 51,
+            "h": 108
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 51,
+            "h": 108
+          },
+          "frame": {
+            "x": 894,
+            "y": 0,
+            "w": 51,
+            "h": 108
+          }
+        }
+      ]
+    }
+  ]
+}
