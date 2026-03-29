@@ -1,3 +1,4 @@
+import type { Physics, Tilemaps } from 'phaser'
 import { Hull } from './_Hull'
 import { Bullets } from './Bullets'
 
@@ -17,11 +18,13 @@ export class Hero extends Phaser.GameObjects.Container {
     super(scene, x, y)
     scene.add.existing(this)
     scene.physics.add.existing(this)
+    this.getBody().setSize(74, 81)
+    this.getBody().setOffset(-38, -40)
+    this.getBody().debugBodyColor = 0x0000ff
 
     this.bullets = new Bullets(scene)
 
     this.hull = new Hull(scene, 0, 0)
-    this.add(this.hull)
     this.turret = scene.add.sprite(0, -5, 'turret')
     this.turret.scale = 0.5
     this.turret.setOrigin(0.5, 0.25)
@@ -33,11 +36,17 @@ export class Hero extends Phaser.GameObjects.Container {
       const y = this.y + 40 * Math.sin(angle) - 5
       this.bullets.fireBullet(x, y, angle)
     })
+
     // KEYS
     this.keyW = this.scene.input.keyboard!.addKey('W')
     this.keyA = this.scene.input.keyboard!.addKey('A')
     this.keyS = this.scene.input.keyboard!.addKey('S')
     this.keyD = this.scene.input.keyboard!.addKey('D')
+  }
+
+  setPhysics(physics: Phaser.Physics.Arcade.ArcadePhysics, walls: Tilemaps.TilemapLayer) {
+    physics.add.collider(this, walls)
+    this.bullets.setPhysics(physics, walls)
   }
 
   update(pointer: Phaser.Input.Pointer, delta: number): void {
@@ -73,5 +82,9 @@ export class Hero extends Phaser.GameObjects.Container {
 
     if (target < -Math.PI) target += 2 * Math.PI
     this.turret.rotation = Phaser.Math.Angle.RotateTo(this.turret.rotation, target, ROTATION_SPEED * delta)
+  }
+
+  protected getBody(): Physics.Arcade.Body {
+    return this.body as Physics.Arcade.Body
   }
 }

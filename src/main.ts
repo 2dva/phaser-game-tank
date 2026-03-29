@@ -1,5 +1,7 @@
 import { Game, type Types } from 'phaser'
-import { LoadingScene, Level1 } from './scenes'
+import { Level1, LoadingScene } from './scenes'
+
+const DEBUG = false
 
 const gameConfig: Types.Core.GameConfig = {
   title: 'Phaser game tutorial',
@@ -14,7 +16,7 @@ const gameConfig: Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      debug: false,
+      debug: DEBUG,
     },
   },
   render: {

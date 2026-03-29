@@ -8,10 +8,6 @@ export class Hull extends Actor {
 
     this.scale = 0.5
 
-    // PHYSICS
-    this.getBody().setSize(30, 30)
-    this.getBody().setOffset(8, 0)
-
     this.initAnimations()
   }
 
