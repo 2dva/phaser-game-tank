@@ -1,13 +1,13 @@
 # Tank attack
 #### Простая игра на Phaser 3
 
-### Демо: TODO
+### Демо: https://phaser-game-tank.vercel.app/
 
 Работает только на десктопе 🖥️. Управление: w,a,s,d + mouse.
 
 
 ## Stack
-Typescript + Phaser.js + Vite
+Typescript + Phaser.js + Vite + Howler
 
 
 ## Запуск

@@ -1,6 +1,7 @@
 import type { Physics, Tilemaps } from 'phaser'
-import { Hull } from './_Hull'
+import { Hull } from './Hull'
 import { Bullets } from './Bullets'
+import { Sound } from '../lib/sound'
 
 const ROTATION_SPEED = Math.PI * 0.0008
 let target = 0
@@ -35,6 +36,7 @@ export class Hero extends Phaser.GameObjects.Container {
       const x = this.x + 40 * Math.cos(angle)
       const y = this.y + 40 * Math.sin(angle) - 5
       this.bullets.fireBullet(x, y, angle)
+      Sound.tap.play()
     })
 
     // KEYS

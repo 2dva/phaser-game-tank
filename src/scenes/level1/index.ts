@@ -1,5 +1,5 @@
 import { Scene, Tilemaps } from 'phaser'
-import { Hero } from '../../classes/_Hero'
+import { Hero } from '../../classes/Hero'
 
 export class Level1 extends Scene {
   private hero!: Hero
