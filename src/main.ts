@@ -1,5 +1,6 @@
 import { Game, type Types } from 'phaser'
 import { Level1, LoadingScene } from './scenes'
+import * as _css from './style.css'
 
 const DEBUG = false
 
@@ -43,7 +44,7 @@ window.sizeChanged = () => {
 
       window.game.canvas.setAttribute(
         'style',
-        `display: block; width: ${window.innerWidth}px; height: ${window.innerHeight}px;`
+        `display: block; width: ${window.innerWidth - 20}px; height: ${window.innerHeight - 20}px;`
       )
     }, 100)
   }

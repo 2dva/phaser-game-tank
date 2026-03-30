@@ -1,7 +1,8 @@
 import type { Physics, Tilemaps } from 'phaser'
-import { Hull } from './Hull'
-import { Bullets } from './Bullets'
 import { Sound } from '../lib/sound'
+import { Bullets } from './Bullets'
+import { Hull } from './Hull'
+import { Turret } from './Turret'
 
 const ROTATION_SPEED = Math.PI * 0.0008
 let target = 0
@@ -24,20 +25,12 @@ export class Hero extends Phaser.GameObjects.Container {
     this.getBody().debugBodyColor = 0x0000ff
 
     this.bullets = new Bullets(scene)
-
     this.hull = new Hull(scene, 0, 0)
-    this.turret = scene.add.sprite(0, -5, 'turret')
-    this.turret.scale = 0.5
-    this.turret.setOrigin(0.5, 0.25)
+    this.turret = new Turret(scene, 0, -5)
+
     this.add([this.hull, this.turret])
 
-    scene.input.on('pointerdown', () => {
-      const angle = this.turret.rotation + Math.PI / 2
-      const x = this.x + 40 * Math.cos(angle)
-      const y = this.y + 40 * Math.sin(angle) - 5
-      this.bullets.fireBullet(x, y, angle)
-      Sound.tap.play()
-    })
+    scene.input.on('pointerdown', this.fire, this)
 
     // KEYS
     this.keyW = this.scene.input.keyboard!.addKey('W')
@@ -46,13 +39,28 @@ export class Hero extends Phaser.GameObjects.Container {
     this.keyD = this.scene.input.keyboard!.addKey('D')
   }
 
+  fire() {
+      const angle = this.turret.rotation + Math.PI / 2
+      const x = this.x + 40 * Math.cos(angle)
+      const y = this.y + 40 * Math.sin(angle) - 5
+      this.bullets.fireBullet(x, y, angle)
+      Sound.tap.play()
+  }
+
   setPhysics(physics: Phaser.Physics.Arcade.ArcadePhysics, walls: Tilemaps.TilemapLayer) {
     physics.add.collider(this, walls)
     this.bullets.setPhysics(physics, walls)
   }
 
-  update(pointer: Phaser.Input.Pointer, delta: number): void {
-    const angleToPointer = Phaser.Math.Angle.BetweenPoints(this, pointer)
+  update(pointer: Phaser.Input.Pointer, camera: Phaser.Cameras.Scene2D.Camera, delta: number): void {
+    // const angleToPointer1 = Phaser.Math.Angle.BetweenPoints(this, pointer)
+    const angleToPointer = Phaser.Math.Angle.Between(
+      this.x,
+      this.y,
+      camera.scrollX + pointer.x,
+      camera.scrollY + pointer.y
+    )
+
     target = angleToPointer - Math.PI / 2
 
     let hDir = null,

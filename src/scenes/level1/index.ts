@@ -1,5 +1,6 @@
 import { Scene, Tilemaps } from 'phaser'
 import { Hero } from '../../classes/Hero'
+import { gameObjectsToObjectPoints } from '../../lib/helpers'
 
 export class Level1 extends Scene {
   private hero!: Hero
@@ -7,6 +8,7 @@ export class Level1 extends Scene {
   private tileset!: Tilemaps.Tileset
   private wallsLayer!: Tilemaps.TilemapLayer
   // private groundLayer!: Tilemaps.TilemapLayer
+  private boxes!: Phaser.GameObjects.Sprite[]
 
   constructor() {
     super('level-1-scene')
@@ -18,12 +20,14 @@ export class Level1 extends Scene {
     this.hero = new Hero(this, 300, 300)
     this.hero.setPhysics(this.physics, this.wallsLayer)
 
+    this.initBoxes()
+    this.initCamera()
   }
 
   update(_time: number, delta: number): void {
     const pointer = this.input.activePointer
 
-    this.hero.update(pointer, delta)
+    this.hero.update(pointer, this.cameras.main, delta)
   }
 
   private initMap(): void {
@@ -43,5 +47,27 @@ export class Level1 extends Scene {
       tileColor: null,
       collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
     })
+  }
+
+  private initBoxes(): void {
+    const chestPoints = gameObjectsToObjectPoints(this.map.filterObjects('Boxes', (obj) => obj.name === 'BoxPoint')!)
+
+    this.boxes = chestPoints.map((chestPoint) =>
+      this.physics.add.sprite(chestPoint.x, chestPoint.y, 'sprite', 81).setScale(1.5)
+    )
+
+    this.boxes.forEach((chest) => {
+      this.physics.add.overlap(this.hero, chest, (obj1, obj2) => {
+        obj2.destroy()
+        // this.cameras.main.flash()
+      })
+    })
+  }
+
+  private initCamera(): void {
+    this.cameras.main.setSize(this.game.scale.width, this.game.scale.height)
+    this.cameras.main.startFollow(this.hero, true, 0.1, 0.1)
+    this.cameras.main.setDeadzone(120, 120) 
+    this.cameras.main.setZoom(1.1)
   }
 }

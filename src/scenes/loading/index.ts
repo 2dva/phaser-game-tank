@@ -8,6 +8,11 @@ export class LoadingScene extends Scene {
   preload(): void {
     this.load.baseURL = 'assets/'
 
+    this.load.spritesheet('sprite', 'tilemaps/tiles/textures32.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+    })
+
     this.load.image('bullet', 'sprites/bullet7.png')
     this.load.image('tank', 'sprites/tank.png')
     this.load.image('turret', 'sprites/turret.png')
