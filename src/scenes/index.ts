@@ -1,2 +1,3 @@
-export { LoadingScene } from './loading'
-export { Level1 } from './level1'
+export { LoadingScene } from './LoadingScene'
+export { Level1Scene } from './Level1Scene'
+export { DisplayScene } from './DisplayScene'

@@ -1,8 +1,9 @@
 import { Scene, Tilemaps } from 'phaser'
 import { Hero } from '../../classes/Hero'
 import { gameObjectsToObjectPoints } from '../../lib/helpers'
+import { EVENT_NAME } from '../../events'
 
-export class Level1 extends Scene {
+export class Level1Scene extends Scene {
   private hero!: Hero
   private map!: Tilemaps.Tilemap
   private tileset!: Tilemaps.Tileset
@@ -57,7 +58,8 @@ export class Level1 extends Scene {
     )
 
     this.boxes.forEach((chest) => {
-      this.physics.add.overlap(this.hero, chest, (obj1, obj2) => {
+      this.physics.add.overlap(this.hero, chest, (_obj1, obj2) => {
+        this.game.events.emit(EVENT_NAME.takeBox)
         obj2.destroy()
         // this.cameras.main.flash()
       })

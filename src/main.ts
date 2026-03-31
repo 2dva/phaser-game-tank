@@ -1,5 +1,5 @@
 import { Game, type Types } from 'phaser'
-import { Level1, LoadingScene } from './scenes'
+import { Level1Scene, LoadingScene, DisplayScene } from './scenes'
 import * as _css from './style.css'
 
 const DEBUG = false
@@ -34,7 +34,7 @@ const gameConfig: Types.Core.GameConfig = {
   audio: {
     disableWebAudio: false,
   },
-  scene: [LoadingScene, Level1],
+  scene: [LoadingScene, Level1Scene, DisplayScene],
 }
 
 window.sizeChanged = () => {
