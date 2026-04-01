@@ -10,6 +10,7 @@ export class Level1Scene extends Scene {
   private wallsLayer!: Tilemaps.TilemapLayer
   // private groundLayer!: Tilemaps.TilemapLayer
   private boxes!: Phaser.GameObjects.Sprite[]
+  private explosion!: Phaser.GameObjects.Sprite
 
   constructor() {
     super('level-1-scene')
@@ -20,6 +21,17 @@ export class Level1Scene extends Scene {
 
     this.hero = new Hero(this, 300, 300)
     this.hero.setPhysics(this.physics, this.wallsLayer)
+
+    this.explosion = this.add.sprite(0, 0, '').setVisible(false)
+    this.explosion.scale = 0.4
+
+    this.anims.create({
+      key: 'box_explode',
+      frames: 'boom2',
+      frameRate: 20,
+      showOnStart: true,
+      hideOnComplete: true,
+    })
 
     this.initBoxes()
     this.initCamera()
@@ -60,6 +72,9 @@ export class Level1Scene extends Scene {
     this.boxes.forEach((chest) => {
       this.physics.add.overlap(this.hero, chest, (_obj1, obj2) => {
         this.game.events.emit(EVENT_NAME.takeBox)
+        this.explosion.stop()
+        this.explosion.copyPosition(obj2 as Phaser.Types.Math.Vector2Like).play('box_explode')
+
         obj2.destroy()
         // this.cameras.main.flash()
       })
@@ -69,7 +84,7 @@ export class Level1Scene extends Scene {
   private initCamera(): void {
     this.cameras.main.setSize(this.game.scale.width, this.game.scale.height)
     this.cameras.main.startFollow(this.hero, true, 0.1, 0.1)
-    this.cameras.main.setDeadzone(120, 120) 
+    this.cameras.main.setDeadzone(120, 120)
     this.cameras.main.setZoom(1.1)
   }
 }

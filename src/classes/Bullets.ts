@@ -5,8 +5,19 @@ type PhysicsCallback = Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
 type Body = Phaser.Tilemaps.Tile
 
 export class Bullets extends Phaser.Physics.Arcade.Group {
+  private explosion!: Phaser.GameObjects.Sprite
+
   constructor(scene: Phaser.Scene) {
     super(scene.physics.world, scene)
+    this.explosion = scene.add.sprite(0, 0, '').setVisible(false)
+
+    scene.anims.create({
+      key: 'explode',
+      frames: 'boom5',
+      frameRate: 20,
+      showOnStart: true,
+      hideOnComplete: true,
+    })
 
     this.createMultiple({
       frameQuantity: 5,
@@ -30,7 +41,9 @@ export class Bullets extends Phaser.Physics.Arcade.Group {
   }
 
   hitEnemy(bullet: Body, _enemy: Body) {
+    this.explosion.copyPosition(bullet).play('explode')
     // bullet.setActive(false)
     bullet.setVisible(false)
+    bullet.destroy()
   }
 }
