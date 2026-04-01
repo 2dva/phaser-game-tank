@@ -2,9 +2,11 @@ import { Scene, Tilemaps } from 'phaser'
 import { Hero } from '../../classes/Hero'
 import { gameObjectsToObjectPoints } from '../../lib/helpers'
 import { EVENT_NAME } from '../../events'
+import { Enemy } from '../../classes/Enemy'
 
 export class Level1Scene extends Scene {
   private hero!: Hero
+  private enemies!: Enemy[]
   private map!: Tilemaps.Tilemap
   private tileset!: Tilemaps.Tileset
   private wallsLayer!: Tilemaps.TilemapLayer
@@ -20,21 +22,12 @@ export class Level1Scene extends Scene {
     this.initMap()
 
     this.hero = new Hero(this, 300, 300)
-    this.hero.setPhysics(this.physics, this.wallsLayer)
-
-    this.explosion = this.add.sprite(0, 0, '').setVisible(false)
-    this.explosion.scale = 0.4
-
-    this.anims.create({
-      key: 'box_explode',
-      frames: 'boom2',
-      frameRate: 20,
-      showOnStart: true,
-      hideOnComplete: true,
-    })
 
     this.initBoxes()
+    this.initEnemies()
     this.initCamera()
+
+    this.hero.setPhysics(this.physics, this.wallsLayer, this.enemies)
   }
 
   update(_time: number, delta: number): void {
@@ -62,7 +55,35 @@ export class Level1Scene extends Scene {
     })
   }
 
+  private initEnemies(): void {
+    const enemiesPoints = gameObjectsToObjectPoints(
+      this.map.filterObjects('Enemies', (obj) => obj.name === 'enemyPoint')!
+    )
+
+    this.enemies = enemiesPoints.map((enemyPoint) =>
+      new Enemy(this, enemyPoint.x, enemyPoint.y, 'enemy1', this.hero).setName(enemyPoint.id.toString())
+    )
+
+    this.physics.add.collider(this.enemies, this.wallsLayer)
+    this.physics.add.collider(this.enemies, this.enemies)
+    this.physics.add.collider(this.hero, this.enemies, (obj1) => {
+      ;(obj1 as Hero).getDamage(1)
+    })
+  }
+
   private initBoxes(): void {
+
+    this.explosion = this.add.sprite(0, 0, '').setVisible(false)
+    this.explosion.scale = 0.4
+
+    this.anims.create({
+      key: 'box_explode',
+      frames: 'boom2',
+      frameRate: 20,
+      showOnStart: true,
+      hideOnComplete: true,
+    })
+
     const chestPoints = gameObjectsToObjectPoints(this.map.filterObjects('Boxes', (obj) => obj.name === 'BoxPoint')!)
 
     this.boxes = chestPoints.map((chestPoint) =>

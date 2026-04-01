@@ -12,18 +12,20 @@ export class Actor extends Physics.Arcade.Sprite {
     this.getBody().setCollideWorldBounds(true)
   }
 
-  public getDamage(value?: number): void {
+  public getDamage(value: number = 0): void {
+    this.hp = this.hp - value
+    if (this.hp <= 0) {
+      this.destroy()
+      return
+    }
+
     this.scene.tweens.add({
       targets: this,
       duration: 100,
       repeat: 3,
       yoyo: true,
       alpha: 0.5,
-      onStart: () => {
-        if (value) {
-          this.hp = this.hp - value
-        }
-      },
+      onStart: () => {},
       onComplete: () => {
         this.setAlpha(1)
       },

@@ -15,6 +15,7 @@ export class LoadingScene extends Scene {
 
     this.load.image('bullet', 'sprites/bullet3.png')
     this.load.image('tank', 'sprites/tank.png')
+    this.load.image('enemy1', 'sprites/enemy1.png')
     this.load.image('turret', 'sprites/turret.png')
     this.load.atlas('a-tank', 'spritesheets/tanks.png', 'spritesheets/tanks_atlas.json')
     this.load.spritesheet('boom2', 'spritesheets/explosion2.png', { frameWidth: 256, frameHeight: 256, endFrame: 7 })

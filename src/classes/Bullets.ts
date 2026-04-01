@@ -1,5 +1,5 @@
-import type { Tilemaps } from 'phaser'
 import { Bullet } from './Bullet'
+import { Enemy } from './Enemy'
 
 type PhysicsCallback = Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
 type Body = Phaser.Tilemaps.Tile
@@ -28,8 +28,18 @@ export class Bullets extends Phaser.Physics.Arcade.Group {
     })
   }
 
-  setPhysics(physics: Phaser.Physics.Arcade.ArcadePhysics, walls: Tilemaps.TilemapLayer) {
-    physics.add.collider(this, walls, this.hitEnemy as PhysicsCallback, undefined, this)
+  setPhysicsWall(
+    physics: Phaser.Physics.Arcade.ArcadePhysics,
+    obstacle: Phaser.Types.Physics.Arcade.ArcadeColliderType
+  ) {
+    physics.add.collider(this, obstacle, this.hitWall as PhysicsCallback, undefined, this)
+  }
+
+  setPhysicsEnemy(
+    physics: Phaser.Physics.Arcade.ArcadePhysics,
+    obstacle: Phaser.Types.Physics.Arcade.ArcadeColliderType
+  ) {
+    physics.add.collider(this, obstacle, this.hitEnemy as PhysicsCallback, undefined, this)
   }
 
   fireBullet(x: number, y: number, angle: number) {
@@ -40,9 +50,15 @@ export class Bullets extends Phaser.Physics.Arcade.Group {
     }
   }
 
-  hitEnemy(bullet: Body, _enemy: Body) {
+  hitWall(bullet: Body) {
     this.explosion.copyPosition(bullet).play('explode')
-    // bullet.setActive(false)
+    bullet.setVisible(false)
+    bullet.destroy()
+  }
+
+  hitEnemy(enemy: Enemy, bullet: Body) {
+    this.explosion.copyPosition(bullet).play('explode')
+    enemy.getDamage(50)
     bullet.setVisible(false)
     bullet.destroy()
   }
