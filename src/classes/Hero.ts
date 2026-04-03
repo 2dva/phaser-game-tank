@@ -1,18 +1,16 @@
 import type { Physics, Tilemaps } from 'phaser'
+import { EVENT_NAME, gameStatus } from '../constants'
 import { Sound } from '../lib/sound'
 import { Bullets } from './Bullets'
+import type { Enemy } from './Enemy'
 import { Hull } from './Hull'
 import { Turret } from './Turret'
-import { Text } from './Text'
-import type { Enemy } from './Enemy'
 
 const ROTATION_SPEED = Math.PI * 0.0008
 const GROUND_SPEED = 120
-let target = 0
 
 export class Hero extends Phaser.GameObjects.Container {
   protected hp = 100
-  private hpValue: Text
   private keyW: Phaser.Input.Keyboard.Key
   private keyA: Phaser.Input.Keyboard.Key
   private keyS: Phaser.Input.Keyboard.Key
@@ -28,10 +26,6 @@ export class Hero extends Phaser.GameObjects.Container {
     this.getBody().setSize(74, 81)
     this.getBody().setOffset(-38, -40)
     this.getBody().debugBodyColor = 0x0000ff
-
-    this.hpValue = new Text(this.scene, this.x, this.y - this.height, this.hp.toString())
-      .setFontSize(12)
-      .setOrigin(0.8, 0.5)
 
     this.bullets = new Bullets(scene)
     this.hull = new Hull(scene, 0, 0)
@@ -62,7 +56,7 @@ export class Hero extends Phaser.GameObjects.Container {
     this.bullets.setPhysicsEnemy(physics, enemies)
   }
 
-  public getDamage(value?: number): void {
+  public getDamage(value: number = 0): void {
     this.scene.tweens.add({
       targets: this,
       duration: 100,
@@ -70,15 +64,17 @@ export class Hero extends Phaser.GameObjects.Container {
       yoyo: true,
       alpha: 0.5,
       onStart: () => {
-        if (value) {
-          this.hp = this.hp - value
+        this.hp = this.hp - value
+        this.scene.game.events.emit(EVENT_NAME.getDamage, this.hp)
+
+        if (this.hp <= 0) {
+          this.scene.game.events.emit(EVENT_NAME.gameEnd, gameStatus.LOSE)
         }
       },
       onComplete: () => {
         this.setAlpha(1)
       },
     })
-    this.hpValue.setText(this.hp.toString())
   }
 
   update(pointer: Phaser.Input.Pointer, camera: Phaser.Cameras.Scene2D.Camera, delta: number): void {
@@ -97,12 +93,9 @@ export class Hero extends Phaser.GameObjects.Container {
       camera.scrollX + pointer.x,
       camera.scrollY + pointer.y
     )
-    target = angleToPointer - Math.PI / 2
+    let target = angleToPointer - Math.PI / 2
     if (target < -Math.PI) target += 2 * Math.PI
     this.turret.rotation = Phaser.Math.Angle.RotateTo(this.turret.rotation, target, ROTATION_SPEED * delta)
-
-    this.hpValue.setPosition(this.x, this.y - this.height * 0.4)
-    this.hpValue.setOrigin(0.8, 0.5)
   }
 
   protected getBody(): Physics.Arcade.Body {

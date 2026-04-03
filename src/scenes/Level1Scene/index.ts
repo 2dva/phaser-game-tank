@@ -1,8 +1,8 @@
 import { Scene, Tilemaps } from 'phaser'
-import { Hero } from '../../classes/Hero'
-import { gameObjectsToObjectPoints } from '../../lib/helpers'
-import { EVENT_NAME } from '../../events'
 import { Enemy } from '../../classes/Enemy'
+import { Hero } from '../../classes/Hero'
+import { EVENT_NAME } from '../../constants'
+import { gameObjectsToObjectPoints } from '../../lib/helpers'
 
 export class Level1Scene extends Scene {
   private hero!: Hero
@@ -10,7 +10,6 @@ export class Level1Scene extends Scene {
   private map!: Tilemaps.Tilemap
   private tileset!: Tilemaps.Tileset
   private wallsLayer!: Tilemaps.TilemapLayer
-  // private groundLayer!: Tilemaps.TilemapLayer
   private boxes!: Phaser.GameObjects.Sprite[]
   private explosion!: Phaser.GameObjects.Sprite
 
@@ -72,7 +71,6 @@ export class Level1Scene extends Scene {
   }
 
   private initBoxes(): void {
-
     this.explosion = this.add.sprite(0, 0, '').setVisible(false)
     this.explosion.scale = 0.4
 
