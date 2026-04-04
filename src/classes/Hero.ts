@@ -86,7 +86,10 @@ export class Hero extends Phaser.GameObjects.Container {
     this.getBody().setVelocity(vx, vy)
 
     this.hull.update(this.getBody().velocity)
-
+    if (this.x > 2900 && this.y > 2900) {
+          this.scene.game.events.emit(EVENT_NAME.gameEnd, gameStatus.WIN)
+    }
+    
     const angleToPointer = Phaser.Math.Angle.Between(
       this.x,
       this.y,

@@ -1,9 +1,9 @@
 import { Scene } from 'phaser'
 
-import { Score, scoreOperations } from '../../classes/Score'
-import { EVENT_NAME, gameStatus, type GameStatus } from '../../constants'
-import { Text } from '../../classes/Text'
 import { Health } from '../../classes/Health'
+import { Score, scoreOperations } from '../../classes/Score'
+import { Text } from '../../classes/Text'
+import { EVENT_NAME, gameStatus, type GameStatus } from '../../constants'
 
 export class DisplayScene extends Scene {
   private score!: Score
@@ -22,6 +22,22 @@ export class DisplayScene extends Scene {
     this.score = new Score(this, 28, 30, 0)
     this.health = new Health(this, 260, 20)
     this.initListeners()
+
+    const gameStartPhrase = this.add.text(
+      this.game.scale.width * 0.5,
+      this.game.scale.height * 0.4,
+      'Reach evacuation point',
+      {
+        fontSize: 'calc(100vw / 40)',
+        color: '#fff',
+        stroke: '#000',
+        strokeThickness: 4,
+        align: 'center',
+      }
+    )
+    setTimeout(() => {
+      gameStartPhrase.destroy()
+    }, 2000)
   }
 
   gameEndHandler(status: GameStatus) {
