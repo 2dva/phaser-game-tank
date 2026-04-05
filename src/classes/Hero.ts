@@ -27,7 +27,7 @@ export class Hero extends Phaser.GameObjects.Container {
     this.getBody().setOffset(-38, -40)
     this.getBody().debugBodyColor = 0x0000ff
 
-    this.bullets = new Bullets(scene)
+    this.bullets = new Bullets(scene, 60)
     this.hull = new Hull(scene, 0, 0)
     this.turret = new Turret(scene, 0, -5)
 

@@ -1,5 +1,5 @@
 import { Scene, Tilemaps } from 'phaser'
-import { Enemy } from '../../classes/Enemy'
+import { Enemy, ENEMY_TYPE } from '../../classes/Enemy'
 import { Hero } from '../../classes/Hero'
 import { EVENT_NAME } from '../../constants'
 import { gameObjectsToObjectPoints } from '../../lib/helpers'
@@ -59,9 +59,12 @@ export class Level1Scene extends Scene {
       this.map.filterObjects('Enemies', (obj) => obj.name === 'enemyPoint')!
     )
 
-    this.enemies = enemiesPoints.map((enemyPoint) =>
-      new Enemy(this, enemyPoint.x, enemyPoint.y, 'enemy1', this.hero).setName(enemyPoint.id.toString())
-    )
+    this.enemies = enemiesPoints.map((enemyPoint) => {
+      const enemyType = Math.random() > 0.4 ? ENEMY_TYPE.INFANTRY : ENEMY_TYPE.ARTILLERY
+      const enemy =  new Enemy(this, enemyPoint.x, enemyPoint.y, enemyType, this.hero).setName(enemyPoint.id.toString())
+      enemy.setPhysics(this.physics, this.wallsLayer, this.hero)
+      return enemy
+    })
 
     this.physics.add.collider(this.enemies, this.wallsLayer)
     this.physics.add.collider(this.enemies, this.enemies)

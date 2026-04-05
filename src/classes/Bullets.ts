@@ -4,12 +4,19 @@ import { Enemy } from './Enemy'
 type PhysicsCallback = Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
 type Body = Phaser.Tilemaps.Tile
 
+const DEFAULT_SPEED = 1000
+const DEFAULT_IMPACT = 30
+
 export class Bullets extends Phaser.Physics.Arcade.Group {
   private explosion!: Phaser.GameObjects.Sprite
+  private impact: number
+  private speed: number
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, impact = DEFAULT_IMPACT, speed = DEFAULT_SPEED) {
     super(scene.physics.world, scene)
     this.explosion = scene.add.sprite(0, 0, '').setVisible(false)
+    this.impact = impact
+    this.speed = speed
 
     scene.anims.create({
       key: 'explode',
@@ -46,7 +53,7 @@ export class Bullets extends Phaser.Physics.Arcade.Group {
     const bullet = this.getFirstDead(true)
 
     if (bullet) {
-      bullet.fire(x, y, angle)
+      bullet.fire(x, y, angle, this.speed)
     }
   }
 
@@ -58,7 +65,7 @@ export class Bullets extends Phaser.Physics.Arcade.Group {
 
   hitEnemy(enemy: Enemy, bullet: Body) {
     this.explosion.copyPosition(bullet).play('explode')
-    enemy.getDamage(50)
+    enemy.getDamage(this.impact)
     bullet.setVisible(false)
     bullet.destroy()
   }
